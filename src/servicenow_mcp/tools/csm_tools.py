@@ -1,7 +1,7 @@
 """
 Higher-level Customer Service Management tools for the ServiceNow MCP server.
 
-Provides tools for querying Mashgin's business entities: accounts, locations,
+Provides tools for querying CSM business entities: accounts, locations,
 products, and integrations — plus case correlation tools that search cases
 by these entities.
 
@@ -90,7 +90,7 @@ class ListLocationsParams(BaseModel):
 class ListProductsParams(BaseModel):
     """Parameters for listing sold products."""
     account: Optional[str] = Field(None, description="Filter by account name")
-    product_name: Optional[str] = Field(None, description="Filter by product name (e.g. Kiosk, Origin, Cloud, Creator, Byte, MashCash, Mobile, Fleet)")
+    product_name: Optional[str] = Field(None, description="Filter by product name")
     limit: int = Field(50, description="Maximum number of products to return (max 200)")
     offset: int = Field(0, description="Offset for pagination")
 
@@ -101,7 +101,7 @@ class ListProductsParams(BaseModel):
 
 class GetCasesByAccountParams(BaseModel):
     """Parameters for getting cases by customer account."""
-    account_name: str = Field(..., description="Account name to search for (e.g. 'Aramark')")
+    account_name: str = Field(..., description="Account name to search for")
     limit: int = Field(50, description="Maximum number of cases to return (max 200)")
     offset: int = Field(0, description="Offset for pagination")
     state: Optional[str] = Field(None, description="Filter by case state")
@@ -111,7 +111,7 @@ class GetCasesByAccountParams(BaseModel):
 
 class GetCasesByLocationParams(BaseModel):
     """Parameters for getting cases by location."""
-    location_name: str = Field(..., description="Location name to search for (e.g. 'Wrigley Field')")
+    location_name: str = Field(..., description="Location name to search for")
     limit: int = Field(50, description="Maximum number of cases to return (max 200)")
     offset: int = Field(0, description="Offset for pagination")
     state: Optional[str] = Field(None, description="Filter by case state")
@@ -120,8 +120,8 @@ class GetCasesByLocationParams(BaseModel):
 
 
 class GetCasesByProductParams(BaseModel):
-    """Parameters for getting cases by Mashgin product type."""
-    product_name: str = Field(..., description="Product name (e.g. 'Origin', 'Byte', 'Creator', 'Kiosk')")
+    """Parameters for getting cases by product type."""
+    product_name: str = Field(..., description="Product name to search for")
     limit: int = Field(50, description="Maximum number of cases to return (max 200)")
     offset: int = Field(0, description="Offset for pagination")
     state: Optional[str] = Field(None, description="Filter by case state")
@@ -131,7 +131,7 @@ class GetCasesByProductParams(BaseModel):
 
 class GetCasesByIntegrationParams(BaseModel):
     """Parameters for getting cases by integration/vendor."""
-    integration_name: str = Field(..., description="Integration name (e.g. 'Shift4', 'Ingenico', 'Glory', 'FreedomPay', 'Aurus', 'PDI', 'Micros', 'Eatec', 'CBORD', 'Stuzo')")
+    integration_name: str = Field(..., description="Integration or vendor name to search for")
     limit: int = Field(50, description="Maximum number of cases to return (max 200)")
     offset: int = Field(0, description="Offset for pagination")
     state: Optional[str] = Field(None, description="Filter by case state")
@@ -444,7 +444,7 @@ def get_cases_by_product(
     auth_manager: AuthManager,
     params: GetCasesByProductParams,
 ) -> dict:
-    """Get cases involving a Mashgin product type.
+    """Get cases involving a specific product type.
 
     Searches short_description and description via LIKE on the task table.
 
@@ -488,8 +488,8 @@ def get_cases_by_integration(
 
     Searches short_description and description via LIKE on the task table.
 
-    Future: swap to ``u_mashgin_kiosk_software_integration`` field on
-    ``sn_customerservice_case``.
+    Future: swap to a structured integration field on
+    ``sn_customerservice_case`` when available.
     """
     query_parts = [
         f"short_descriptionLIKE{params.integration_name}^ORdescriptionLIKE{params.integration_name}"

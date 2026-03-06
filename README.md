@@ -293,8 +293,8 @@ The default `config/tool_packages.yaml` includes the following role-based packag
 ##### Case Correlation Tools
 7. **get_cases_by_account** - Find cases for a specific customer account (validates account exists first)
 8. **get_cases_by_location** - Find cases for a specific venue/location
-9. **get_cases_by_product** - Find cases involving a Mashgin product type (Kiosk, Origin, Byte, etc.)
-10. **get_cases_by_integration** - Find cases involving a specific integration vendor (Shift4, Ingenico, etc.)
+9. **get_cases_by_product** - Find cases involving a specific product type
+10. **get_cases_by_integration** - Find cases involving a specific integration vendor
 
 ##### Case Detail Tools
 11. **get_case_history** - Get full comment and work note timeline for a case
@@ -462,14 +462,14 @@ Below are some example natural language queries you can use with Claude to inter
 - "List all IT support groups in the system"
 
 #### Customer Service Management Examples
-- "Show me all customer accounts matching 'Aramark'"
-- "List locations for Levy Restaurants"
-- "What products does Circle K have deployed?"
-- "Find all cases for Aramark from the last 30 days"
-- "Show me Byte-related cases from the past 12 weeks"
-- "Find cases involving Shift4 integration issues"
+- "Show me all customer accounts matching 'Acme Corp'"
+- "List locations for Global Industries"
+- "What products does Acme Corp have deployed?"
+- "Find all cases for Acme Corp from the last 30 days"
+- "Show me cases related to our Premium product from the past 12 weeks"
+- "Find cases involving payment integration issues"
 - "Get the full history and work notes for case CS0008423"
-- "How many Wrigley Field cases have been opened this month?"
+- "How many cases have been opened for our downtown location this month?"
 
 #### UI Policy Examples
 - "Create a UI policy for the 'Software Request' item (sys_id: abc...) named 'Show Justification' that applies when 'software_cost' is greater than 100."
